@@ -1,5 +1,8 @@
 package com.example.test;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -27,14 +30,22 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        // Scrivere la preferenza
+        SharedPreferences sp = getSharedPreferences("Test", Context.MODE_PRIVATE);
+        sp.edit().putString("modalita","dark").apply();
+
+        // Leggere la preferenza
+        SharedPreferences sp = getSharedPreferences("Test", Context.MODE_PRIVATE);
+        String modalita = sp.getString("modalita","");
+
+
     }
 
-    public void buttonClicked(View view) {
-        Switch darkModeSwitch = findViewById(R.id.darkModeSwitch);
-        if(darkModeSwitch.isChecked()){
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else{
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
+    public void goToSecondActivityButtonClicked(View view) {
+        Intent intent = new Intent(this,SecondActivity.class);
+        intent.putExtra("nome","Pinco");
+        intent.putExtra("cognome", "Pallino");
+        intent.putExtra("eta",50);
+        startActivity(intent);
     }
 }
